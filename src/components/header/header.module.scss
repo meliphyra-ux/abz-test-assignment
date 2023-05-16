@@ -11,6 +11,7 @@
   padding: var(--universal-padding);
 
   nav{
+    //Giving last button margin left
     button:last-of-type{
       margin-left: 10px;
     }

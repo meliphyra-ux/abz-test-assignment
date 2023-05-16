@@ -3,11 +3,12 @@
   --primary: #f4e041;
   --secondary: #00bdd3;
   --background: #f8f8f8;
+
   // Max width of sections
   --max-w: 1170px;
-  // Universal padding
-  --universal-padding: 0;
 
+  // Universal padding and media queries for it
+  --universal-padding: 0;
 
   @media screen and (min-width: 360px) {
     --universal-padding: 0 16px;

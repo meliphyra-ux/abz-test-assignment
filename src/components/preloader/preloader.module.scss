@@ -1,4 +1,5 @@
 .preloader {
+  // Adding margin to separate elements, when first users loading
   margin-top: 50px;
 
   animation-name: spin;
@@ -7,6 +8,7 @@
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 
+  // Spinning animation
   @keyframes spin {
     from {
       rotate: 0deg;

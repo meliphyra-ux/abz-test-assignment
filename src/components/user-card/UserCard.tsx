@@ -1,4 +1,5 @@
 import { User } from '../../lib/apiFunctions';
+
 import Typography from '../typography/Typography';
 
 import styles from './user-card.module.scss';

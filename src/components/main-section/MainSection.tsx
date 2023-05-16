@@ -1,5 +1,6 @@
 import Button from '../button/Button';
 import Typography from '../typography/Typography';
+
 import styles from './main-section.module.scss';
 
 const MainSection = () => {

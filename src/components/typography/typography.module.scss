@@ -1,5 +1,6 @@
 @import '../../assets/global-styles/mixins';
 
+// Adding two different style options
 .heading {
   @include Heading;
   text-align: center;

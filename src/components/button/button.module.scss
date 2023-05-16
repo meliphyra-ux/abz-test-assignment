@@ -15,6 +15,14 @@
   &.normal {
     background-color: var(--primary);
     color: black;
+
+    // Adding a hover effect
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover{
+      background-color:rgba(255, 227, 2, 1);
+      ;
+    }
   }
 
   &.disabled {

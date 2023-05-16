@@ -1,4 +1,5 @@
 import { FC, MouseEventHandler, ReactNode } from 'react';
+
 import styles from './button.module.scss';
 
 type ButtonProps = {
@@ -8,9 +9,9 @@ type ButtonProps = {
 };
 
 const Button: FC<ButtonProps> = ({ disabled, children, onClick }) => {
-  const classNames = disabled ? styles.disabled : styles.normal;
+  const style = disabled ? styles.disabled : styles.normal;
   return (
-    <button className={`${styles.button} ${classNames}`} onClick={onClick}>{children}</button>
+    <button className={`${styles.button} ${style}`} onClick={onClick}>{children}</button>
   );
 };
 

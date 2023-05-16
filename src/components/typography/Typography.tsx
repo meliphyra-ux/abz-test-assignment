@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+
 import styles from './typography.module.scss';
 
 type TypographyProps = {
@@ -7,6 +8,8 @@ type TypographyProps = {
 };
 
 const Typography: FC<TypographyProps> = ({ type, children }) => {
+
+  // Creating 2 different elements for styling
   let Element;
   switch (type) {
     case 'heading': {
