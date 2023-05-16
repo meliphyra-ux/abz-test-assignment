@@ -1,0 +1,15 @@
+.users-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  max-width: var(--max-w);
+
+  h2{
+    margin-top: 140px;
+  }
+  button{
+    margin-top: 50px;
+  }
+}

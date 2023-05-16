@@ -1,0 +1,10 @@
+@import '../../assets/global-styles/mixins';
+
+.heading {
+  @include Heading;
+  text-align: center;
+}
+.body-text {
+  @include BodyText;
+  text-align: center;
+}

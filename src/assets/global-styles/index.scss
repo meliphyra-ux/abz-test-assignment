@@ -1,0 +1,40 @@
+:root {
+  // Colors
+  --primary: #f4e041;
+  --secondary: #00bdd3;
+  --background: #f8f8f8;
+  // Max width of sections
+  --max-w: 1170px;
+  // Universal padding
+  --universal-padding: 0;
+
+
+  @media screen and (min-width: 360px) {
+    --universal-padding: 0 16px;
+  }
+  @media screen and (min-width: 768px) {
+    --universal-padding: 0 32px;
+  }
+  @media screen and (min-width: 1024px) {
+    --universal-padding: 0 60px;
+  }
+  @media screen and (min-width: 1170px) {
+    --universal-padding: 0 0;
+  }
+}
+// Setting font-family, box-sizing and removing default settings;
+* {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+}
+
+body{
+  background-color: var(--background);
+}

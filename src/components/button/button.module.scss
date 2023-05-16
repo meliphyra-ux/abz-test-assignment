@@ -1,0 +1,24 @@
+@import '../../assets/global-styles/mixins';
+
+.button {
+  @include BodyText;
+
+  padding: 4px 23px;
+
+  min-width: 100px;
+
+  border-radius: 80px;
+
+  cursor: pointer;
+  
+  // Making 2 variantions of button
+  &.normal {
+    background-color: var(--primary);
+    color: black;
+  }
+
+  &.disabled {
+    background-color: #b4b4b4;
+    color: white;
+  }
+}
