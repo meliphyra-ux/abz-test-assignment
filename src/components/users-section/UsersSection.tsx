@@ -9,6 +9,7 @@ import Button from '../button/Button';
 import styles from './users-section.module.scss';
 import Preloader from '../preloader/Preloader';
 
+// Creating wrapper instance
 const fetchUsers = fetchUsersWrapper();
 
 const UsersSection = () => {
@@ -26,6 +27,12 @@ const UsersSection = () => {
 
   useEffect(() => {
     handleFetchUsers();
+
+    return () => {
+      setUsers([])
+      setLastPage(false)
+      setIsFetching(false)
+    }
   }, []);
 
   return (

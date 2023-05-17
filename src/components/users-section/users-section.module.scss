@@ -6,9 +6,9 @@
   width: 100%;
   max-width: var(--max-w);
 
-  h2{
-    margin-top: 140px;
-  }
+  padding: var(--universal-padding);
+  margin-top: var(--mt-b-sections);
+
   button{
     margin-top: 50px;
   }

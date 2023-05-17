@@ -3,9 +3,16 @@
   --primary: #f4e041;
   --secondary: #00bdd3;
   --background: #f8f8f8;
+  --error: rgba(203, 61, 64, 1);
+
+  // Input color
+  --input-c: rgba(208, 207, 207, 1);
 
   // Max width of sections
   --max-w: 1170px;
+
+  // Margin top between sections
+  --mt-b-sections: 140px;
 
   // Universal padding and media queries for it
   --universal-padding: 0;

@@ -15,7 +15,11 @@
   & > p, .user-information{
     margin-top: 20px;
   }
-
+  .user-information{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   img{
     border-radius: 50%;
   }

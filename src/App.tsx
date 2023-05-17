@@ -3,6 +3,7 @@ import MainSection from './components/main-section/MainSection';
 import UsersSection from './components/users-section/UsersSection';
 
 import styles from './app.module.scss'
+import SignUpSection from './components/sign-up-section/SignUpSection';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Header />
       <MainSection />
       <UsersSection />
+      <SignUpSection />
     </div>
   );
 };
