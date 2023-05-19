@@ -1,0 +1,40 @@
+.radio-container {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  
+  margin: 7px auto 0;
+
+  input[type='radio'] {
+    appearance: none;
+
+    display: grid;
+    place-content: center;
+
+    font: inherit;
+    color: var(--secondary);
+
+    width: 20px;
+    height: 20px;
+
+    border: 1px solid var(--secondary);
+    border-radius: 50%;
+    &::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+      box-shadow: inset 1em 1em var(--secondary);  
+    }
+    &:checked::before{
+      transform: scale(1);
+    }
+  }
+  
+  label {
+    margin-left: 12px;
+  }
+}

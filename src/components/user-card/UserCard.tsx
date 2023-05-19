@@ -12,10 +12,10 @@ const UserCard = ({ user }: { user: User }) => {
       <Typography type="body-text">{user.name}</Typography>
       <div className={styles['user-information']}>
         <Tooltip text={user.position}>
-          <Typography type="body-text">{user.position}</Typography>
+          <Typography type="body-text">{user.position.slice(0,18)}</Typography>
         </Tooltip>
         <Tooltip text={user.email}>
-          <Typography type="body-text">{user.email}</Typography>
+          <Typography type="body-text">{user.email.length > 26 ?user.email.slice(0,26) + '...' : user.email}</Typography>
         </Tooltip>
         <Tooltip text={user.phone}>
           <Typography type="body-text">{user.phone}</Typography>

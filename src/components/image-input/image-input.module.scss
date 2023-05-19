@@ -1,0 +1,61 @@
+@import '../../assets/global-styles/mixins';
+
+.image-input-container {
+  margin-top: 50px;
+
+  width: 100%;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  @include BodyText;
+
+  input {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 4px;
+
+    padding: 14px 0 14px 99px;
+
+    @include BodyText;
+
+    border: 1px solid rgba(208, 207, 207, 1);
+    color: rgba(208, 207, 207, 1);
+
+    cursor: pointer;
+
+    &::-webkit-file-upload-button {
+      display: none;
+    }
+  }
+  label {
+    width: 83px;
+    height: 100%;
+
+    border-radius: 4px 0px 0px 4px;
+
+    padding: 14px 15px;
+
+    position: absolute;
+
+    background-color: var(--background);
+    color: rgba(0, 0, 0, 0.87);
+
+    border: 1px solid rgba(0, 0, 0, 0.87);
+
+    cursor: pointer;
+  }
+  span {
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+    bottom: -18px;
+    left: 16px;
+
+    color: rgba(203, 61, 64, 1);
+  }
+}

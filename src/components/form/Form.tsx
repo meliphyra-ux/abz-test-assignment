@@ -1,18 +1,30 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
+
 import Button from '../button/Button';
+import Input, { InputField } from '../input/Input';
 
-import styles from './form.module.scss'
+import styles from './form.module.scss';
+import Typography from '../typography/Typography';
+import PositionSelector from '../position-selector/PositionSelector';
+import ImageInput from '../image-input/ImageInput';
+import { useMemo, useState } from 'react';
+import { postUser } from '../../lib/apiFunctions';
+import Success from '../success/Success';
 
-type Inputs = {
+export type PostInputs = {
   'Your name': string;
   Email: string;
   Phone: string;
+  Position: number;
+  Image: FileList;
 };
 
-const INPUT_FIELDS = [
+export type PostInputsKeys = keyof PostInputs;
+
+const TEXT_INPUT_FIELDS: InputField[] = [
   {
     title: 'Your name',
-    pattern: /a-zA-z/g,
+    pattern: /[a-zA-Z]/g,
     minLenght: 2,
     maxLenght: 60,
   },
@@ -28,6 +40,7 @@ const INPUT_FIELDS = [
     pattern: /^[+]{0,1}380([0-9]{9})$/g,
     minLenght: 13,
     maxLenght: 13,
+    helper_text: '+38(0xx)xxxxxxx',
   },
 ];
 
@@ -37,35 +50,69 @@ const Form = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<PostInputs>({
+    defaultValues: {
+      'Your name': '',
+      Email: '',
+      Phone: '',
+      Position: 0,
+    },
+  });
 
-  const inputFieldsValues = watch(['Your name', 'Email', 'Phone']);
+  const [isSuccess, setIsSuccess] = useState(true);
 
-  const InputFields = INPUT_FIELDS.map((inputField, index) => (
-    <div
-    key={inputField.title}
-    className={styles['input-container']}
-      aria-invalid={errors[inputField.title as keyof Inputs] ? 'true' : 'false'}
-    >
-      <label
-      style={{
-        top: inputFieldsValues[index].length > 0 ? '0' : '',
-      }}
-      >{inputField.title}</label>
-      <input type="text" {...register(inputField.title as keyof Inputs, {
-        pattern: inputField.pattern,
-        minLength: inputField.minLenght,
-        maxLength: inputField.maxLenght
-      })} />
-    </div>
+  const textInputFieldsValues = watch(['Your name', 'Email', 'Phone']);
+
+  const otherInputFields = watch(['Position', 'Image']);
+
+  const isButtonEnabled = useMemo(() => {
+    const allInputFields = [...textInputFieldsValues, ...otherInputFields];
+    const FileListInstance = allInputFields[4] as FileList;
+    if (
+      allInputFields.includes('') ||
+      allInputFields.includes(0) ||
+      FileListInstance.length === 0
+    ) {
+      return false;
+    }
+    return true;
+  }, [otherInputFields, textInputFieldsValues]);
+
+  const TextInputFields = TEXT_INPUT_FIELDS.map((inputField, index) => (
+    <Input
+      key={inputField.title}
+      inputField={inputField}
+      error={errors[inputField.title as PostInputsKeys]}
+      isLabelUpped={textInputFieldsValues[index].length > 0}
+      register={register}
+    />
   ));
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<PostInputs> = async (data) => {
+    const res = await postUser(data);
+    console.log(res);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {InputFields}
-      <Button>Submit</Button>
-    </form>
+    <>
+      {isSuccess ? (
+        <Success />
+      ) : (
+        <>
+          <Typography type="heading">Working with POST request</Typography>
+          <form
+            className={styles['form-container']}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {TextInputFields}
+            <Typography type="body-text">Select your position</Typography>
+            <PositionSelector register={register} />
+            <ImageInput register={register} error={errors.Image} />
+            <Button disabled={!isButtonEnabled}>Sign up</Button>
+          </form>
+        </>
+      )}
+    </>
   );
 };
 

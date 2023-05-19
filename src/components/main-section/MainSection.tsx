@@ -5,7 +5,9 @@ import styles from './main-section.module.scss';
 
 const MainSection = () => {
   return (
-    <section className={styles['main-section']}>
+    <section
+      className={styles['main-section']}
+    >
       <Typography type="heading">
         Test assignment for front-end developer
       </Typography>
@@ -16,9 +18,7 @@ const MainSection = () => {
         mind. They should also be excited to learn, as the world of Front-End
         Development keeps evolving.
       </Typography>
-      <Button>
-        Sign up
-      </Button>
+      <Button>Sign up</Button>
     </section>
   );
 };
