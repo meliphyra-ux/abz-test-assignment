@@ -1,20 +1,23 @@
 import { FieldError, UseFormRegister } from 'react-hook-form';
-import { PostInputs } from '../form/Form';
+
+// Importing types
+import { PostInputs } from '../../lib/types';
 
 import styles from './image-input.module.scss';
 
 const ImageInput = ({
   register,
-  error
+  error,
 }: {
-  register: UseFormRegister<PostInputs>,
-  error: FieldError | undefined
+  register: UseFormRegister<PostInputs>;
+  error: FieldError | undefined;
 }) => {
+  // Function to validate the Image
   const validateFile = async (file: FileList) => {
     const uploadedFile = file[0];
     const { type, size } = uploadedFile;
     const { width, height } = await getImageDimensions(uploadedFile);
-
+    // Creating different cases for image validation
     if (!type.includes('jpg') && !type.includes('jpeg')) {
       return 'Please upload a JPG or JPEG image.';
     }
@@ -30,7 +33,7 @@ const ImageInput = ({
     return true; // File is valid
   };
 
-
+  // Check the dimensions of the image
   const getImageDimensions = (file: File) => {
     return new Promise<{ width: number; height: number }>((resolve) => {
       const image = new Image();
@@ -45,13 +48,12 @@ const ImageInput = ({
   };
 
   return (
-    <div className={styles['image-input-container']}>
-      <label htmlFor="image-upload">
-        Upload
-      </label>
+    <div className={styles['image-input--container']}>
+      {/* Creating a custom Upload button */}
+      <label htmlFor="image-upload">Upload</label>
       <input
         id="image-upload"
-        accept='image/*'
+        accept="image/*"
         required
         type="file"
         {...register('Image', {

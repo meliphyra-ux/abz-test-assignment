@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo } from 'react';
+
+// Functions and Types
 import { UseFormRegister } from 'react-hook-form';
 import { fetchPositions, Position } from '../../lib/apiFunctions';
+import { PostInputs } from '../../lib/types';
 
-import { PostInputs } from '../form/Form';
 import Typography from '../typography/Typography';
-
 import RadioInput from '../radio-input/RadioInput';
 
 const PositionSelector = ({
@@ -14,6 +15,7 @@ const PositionSelector = ({
 }) => {
   const [positions, setPositions] = useState<Position[]>([]);
 
+  // Creating RadioInputs
   const RadioInputs = useMemo(() => {
     if (positions.length >= 1) {
       return positions.map((position) => (
@@ -23,9 +25,10 @@ const PositionSelector = ({
     return (
       <Typography type="body-text">An Error occured during request</Typography>
     );
-  }, [positions, register])
+  }, [positions, register]);
 
   useEffect(() => {
+    // Fetching positions for position selector
     fetchPositions().then((data) => {
       setPositions(data);
     });

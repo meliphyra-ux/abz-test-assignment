@@ -1,25 +1,23 @@
+import { useContext, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import Button from '../button/Button';
-import Input, { InputField } from '../input/Input';
+import { fetchUser, postUser } from '../../lib/apiFunctions';
 
-import styles from './form.module.scss';
+import { UserContext } from '../../contexts/user/UserContext';
+
+//Importing types
+import { PostInputs, PostInputsKeys, InputField } from '../../lib/types';
+
+import Input from '../input/Input';
+import Button from '../button/Button';
 import Typography from '../typography/Typography';
 import PositionSelector from '../position-selector/PositionSelector';
 import ImageInput from '../image-input/ImageInput';
-import { useMemo, useState } from 'react';
-import { postUser } from '../../lib/apiFunctions';
 import Success from '../success/Success';
 
-export type PostInputs = {
-  'Your name': string;
-  Email: string;
-  Phone: string;
-  Position: number;
-  Image: FileList;
-};
+import styles from './form.module.scss';
 
-export type PostInputsKeys = keyof PostInputs;
+//Creting objects representing text input fields and their limitations
 
 const TEXT_INPUT_FIELDS: InputField[] = [
   {
@@ -58,13 +56,16 @@ const Form = () => {
       Position: 0,
     },
   });
+  // If isSuccess === true load Success component
+  const { handleAddUser } = useContext(UserContext);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const [isSuccess, setIsSuccess] = useState(true);
-
+  // Setting 2 separate watchers to create text input fields and for isButtonEnabled
   const textInputFieldsValues = watch(['Your name', 'Email', 'Phone']);
 
   const otherInputFields = watch(['Position', 'Image']);
 
+  // Control of disability of sign up button
   const isButtonEnabled = useMemo(() => {
     const allInputFields = [...textInputFieldsValues, ...otherInputFields];
     const FileListInstance = allInputFields[4] as FileList;
@@ -78,6 +79,7 @@ const Form = () => {
     return true;
   }, [otherInputFields, textInputFieldsValues]);
 
+  // Creating text input fields
   const TextInputFields = TEXT_INPUT_FIELDS.map((inputField, index) => (
     <Input
       key={inputField.title}
@@ -89,8 +91,18 @@ const Form = () => {
   ));
 
   const onSubmit: SubmitHandler<PostInputs> = async (data) => {
+    // Posting user
     const res = await postUser(data);
-    console.log(res);
+    // On success
+    if (res.success && res.user_id) {
+      setIsSuccess(res.success);
+      // Grab new user
+      const user = await fetchUser(res.user_id);
+      // On success
+      if (user !== null) {
+        handleAddUser(user);
+      }
+    }
   };
 
   return (
@@ -101,7 +113,7 @@ const Form = () => {
         <>
           <Typography type="heading">Working with POST request</Typography>
           <form
-            className={styles['form-container']}
+            className={styles['form--container']}
             onSubmit={handleSubmit(onSubmit)}
           >
             {TextInputFields}

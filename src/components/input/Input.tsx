@@ -1,34 +1,34 @@
-import { FC } from 'react'
+import { FC } from 'react';
+// Importing types
 import { FieldError } from 'react-hook-form';
-import { PostInputsKeys } from '../form/Form'
+import { InputField, PostInputsKeys } from '../../lib/types';
 
-import styles from './input.module.scss'
+import styles from './input.module.scss';
 
-type InputProps ={
+type InputProps = {
   inputField: InputField;
-  error: undefined | FieldError
+  error: undefined | FieldError;
   isLabelUpped: boolean;
-  register: Function
-}
-
-export type InputField = {
-  title: string;
-  pattern: RegExp;
-  minLenght: number;
-  maxLenght: number;
-  helper_text?: string;
+  register: Function;
 };
 
-const Input: FC<InputProps> = ({ inputField, error, isLabelUpped, register}) => {
-  const {title} = inputField
+const Input: FC<InputProps> = ({
+  inputField,
+  error,
+  isLabelUpped,
+  register,
+}) => {
+  const { title } = inputField;
 
   return (
     <div
       key={title}
       className={styles['input-container']}
+      // Color switcher if error
       aria-invalid={error ? 'true' : 'false'}
     >
       <label
+        // Rules for label
         style={{
           top: isLabelUpped ? '0' : '',
         }}
@@ -38,6 +38,7 @@ const Input: FC<InputProps> = ({ inputField, error, isLabelUpped, register}) => 
       <input
         type="text"
         {...register(title as PostInputsKeys, {
+          // Writting validation rules
           pattern: { value: inputField.pattern, message: 'Pattern mismatch' },
           minLength: {
             value: inputField.minLenght,
@@ -49,13 +50,13 @@ const Input: FC<InputProps> = ({ inputField, error, isLabelUpped, register}) => 
           },
           required: {
             value: true,
-            message: 'Field is required'
+            message: 'Field is required',
           },
         })}
       />
-        <span>{error?.message ?? inputField.helper_text}</span>
+      <span>{error?.message ?? inputField.helper_text}</span>
     </div>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;

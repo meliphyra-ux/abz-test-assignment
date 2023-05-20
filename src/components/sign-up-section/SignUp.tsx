@@ -1,12 +1,13 @@
 import Form from '../form/Form';
+
 import styles from './sign-up-section.module.scss';
 
-const SignUpSection = () => {
+const SignUp = () => {
   return (
-    <section className={styles['sign-up-section']}>
+    <section id="post-section" className={styles['sign-up--container']}>
       <Form />
     </section>
   );
 };
 
-export default SignUpSection;
+export default SignUp;

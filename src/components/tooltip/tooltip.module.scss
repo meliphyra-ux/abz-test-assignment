@@ -1,14 +1,11 @@
 @import '../../assets/global-styles/mixins';
 
-.tooltip{
-  position: relative;
+.tooltip--container {
   width: fit-content;
 
-  p:not([data-field="tooltip"]){
-    text-overflow: ellipsis
-  }
+  position: relative;
 
-  p[data-field="tooltip"]{
+  p[data-field='tooltip'] {
     @include BodyText;
 
     width: max-content;

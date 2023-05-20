@@ -1,4 +1,4 @@
-.users-section{
+.users-section--container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +9,7 @@
   padding: var(--universal-padding);
   margin-top: var(--mt-b-sections);
 
-  button{
+  button {
     margin-top: 50px;
   }
 }
