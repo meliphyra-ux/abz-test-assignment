@@ -1,19 +1,24 @@
-import { FieldError, UseFormRegister } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 // Importing types
-import { PostInputs } from '../../lib/types';
 
 import styles from './image-input.module.scss';
+import { useCallback, useEffect, useRef } from 'react';
 
-const ImageInput = ({
-  register,
-  error,
-}: {
-  register: UseFormRegister<PostInputs>;
-  error: FieldError | undefined;
-}) => {
+const ImageInput = () => {
+  // Grabbing register method and errors from context
+  const {
+    register,
+    formState: { errors },
+    setValue
+  } = useFormContext();
+
+  const error = errors['Image']
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
   // Function to validate the Image
-  const validateFile = async (file: FileList) => {
+  const validateFile = useCallback(async (file: FileList) => {
     const uploadedFile = file[0];
     const { type, size } = uploadedFile;
     const { width, height } = await getImageDimensions(uploadedFile);
@@ -31,7 +36,7 @@ const ImageInput = ({
     }
 
     return true; // File is valid
-  };
+  }, []);
 
   // Check the dimensions of the image
   const getImageDimensions = (file: File) => {
@@ -47,6 +52,22 @@ const ImageInput = ({
     });
   };
 
+  useEffect(() => {
+    register('Image', {
+      validate: validateFile,
+    })
+
+    const handleChange = () => {
+      const fileInput = fileInputRef.current;
+      setValue('Image', fileInput?.files);
+    };
+    fileInputRef.current?.addEventListener('change', handleChange);
+
+    return () => {
+      fileInputRef.current?.removeEventListener('change', handleChange);
+    };
+  }, [register, setValue, validateFile])
+
   return (
     <div className={styles['image-input--container']}>
       {/* Creating a custom Upload button */}
@@ -56,11 +77,12 @@ const ImageInput = ({
         accept="image/*"
         required
         type="file"
-        {...register('Image', {
-          validate: validateFile,
-        })}
+        ref={fileInputRef}
       />
-      <span>{error && error.message}</span>
+      <p>{fileInputRef.current?.files?.length! > 0
+          ? fileInputRef.current?.files?.[0].name
+          : 'Upload your photo'}</p>
+      <span>{error && error.message as string}</span>
     </div>
   );
 };

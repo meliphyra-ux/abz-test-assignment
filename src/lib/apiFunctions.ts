@@ -64,7 +64,6 @@ export async function fetchUsers(next_url: string) {
     if (status === 200 && data.success) {
       // Swapping current url to nextUrl
       // If last page, return true
-      console.log(data)
       return next_url !== null
         ? {
             last_page: false,

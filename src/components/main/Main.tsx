@@ -6,7 +6,7 @@ import styles from './main.module.scss';
 const Main = () => {
 
   const scrollToPostSection = () => {
-    const element = document.getElementById('users-section');
+    const element = document.getElementById('post-section');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }

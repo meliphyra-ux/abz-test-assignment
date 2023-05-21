@@ -29,6 +29,8 @@
   }
 
   label {
+    @include BodyText;
+
     background-color: var(--background);
 
     padding: 2px 4px;
@@ -44,15 +46,15 @@
 
   span, label{
     color: var(--input);
-
-    font-size: 12px;
-    line-height: 14px;
   }
 
   span{
     position: absolute;
     bottom: var(--error-b-position);
     left: var(--error-l-position);
+
+    font-size: 12px;
+    line-height: 14px;
   }
   // Switching colors if error
   &[aria-invalid='true']{

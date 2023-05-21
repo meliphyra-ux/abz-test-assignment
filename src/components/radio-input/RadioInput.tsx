@@ -1,13 +1,13 @@
 // Importing types
-import { UseFormRegister } from 'react-hook-form';
-import { PostInputs } from '../../lib/types';
+import { useFormContext } from 'react-hook-form';
 import { Position } from '../../lib/apiFunctions';
 
 import Typography from '../typography/Typography';
 
 import styles from './radio-input.module.scss';
 
-const RadioInput = ({ register, position }: { register: UseFormRegister<PostInputs>, position: Position }) => {
+const RadioInput = ({ position }: { position: Position }) => {
+  const { register } = useFormContext()
   return (
     <div className={styles['radio--container']}>
       <input

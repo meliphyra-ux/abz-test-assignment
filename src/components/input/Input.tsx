@@ -1,24 +1,23 @@
 import { FC } from 'react';
+import { useFormContext } from 'react-hook-form';
 // Importing types
-import { FieldError } from 'react-hook-form';
 import { InputField, PostInputsKeys } from '../../lib/types';
 
 import styles from './input.module.scss';
 
 type InputProps = {
   inputField: InputField;
-  error: undefined | FieldError;
   isLabelUpped: boolean;
-  register: Function;
 };
 
 const Input: FC<InputProps> = ({
   inputField,
-  error,
   isLabelUpped,
-  register,
 }) => {
+  const { register, formState: {errors} } = useFormContext()
+  
   const { title } = inputField;
+  const error = errors[title];
 
   return (
     <div
@@ -54,7 +53,7 @@ const Input: FC<InputProps> = ({
           },
         })}
       />
-      <span>{error?.message ?? inputField.helper_text}</span>
+      <span>{error?.message as string ?? inputField.helper_text}</span>
     </div>
   );
 };

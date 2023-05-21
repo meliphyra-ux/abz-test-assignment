@@ -1,12 +1,12 @@
 import { useContext, useMemo, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
 
 import { fetchUser, postUser } from '../../lib/apiFunctions';
 
 import { UserContext } from '../../contexts/user/UserContext';
 
 //Importing types
-import { PostInputs, PostInputsKeys, InputField } from '../../lib/types';
+import { PostInputs, InputField } from '../../lib/types';
 
 import Input from '../input/Input';
 import Button from '../button/Button';
@@ -43,27 +43,22 @@ const TEXT_INPUT_FIELDS: InputField[] = [
 ];
 
 const Form = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<PostInputs>({
-    defaultValues: {
-      'Your name': '',
-      Email: '',
-      Phone: '',
-      Position: 0,
-    },
-  });
+  const methods = useForm<PostInputs>({
+      defaultValues: {
+        'Your name': '',
+        Email: '',
+        Phone: '',
+        Position: 0,
+      },
+    });
   // If isSuccess === true load Success component
   const { handleAddUser } = useContext(UserContext);
   const [isSuccess, setIsSuccess] = useState(false);
 
   // Setting 2 separate watchers to create text input fields and for isButtonEnabled
-  const textInputFieldsValues = watch(['Your name', 'Email', 'Phone']);
+  const textInputFieldsValues = methods.watch(['Your name', 'Email', 'Phone']);
 
-  const otherInputFields = watch(['Position', 'Image']);
+  const otherInputFields = methods.watch(['Position', 'Image']);
 
   // Control of disability of sign up button
   const isButtonEnabled = useMemo(() => {
@@ -84,9 +79,7 @@ const Form = () => {
     <Input
       key={inputField.title}
       inputField={inputField}
-      error={errors[inputField.title as PostInputsKeys]}
       isLabelUpped={textInputFieldsValues[index].length > 0}
-      register={register}
     />
   ));
 
@@ -112,16 +105,18 @@ const Form = () => {
       ) : (
         <>
           <Typography type="heading">Working with POST request</Typography>
-          <form
-            className={styles['form--container']}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {TextInputFields}
-            <Typography type="body-text">Select your position</Typography>
-            <PositionSelector register={register} />
-            <ImageInput register={register} error={errors.Image} />
-            <Button disabled={!isButtonEnabled}>Sign up</Button>
-          </form>
+          <FormProvider {...methods}>
+            <form
+              className={styles['form--container']}
+              onSubmit={methods.handleSubmit(onSubmit)}
+            >
+              {TextInputFields}
+              <Typography type="body-text">Select your position</Typography>
+              <PositionSelector />
+              <ImageInput />
+              <Button disabled={!isButtonEnabled}>Sign up</Button>
+            </form>
+          </FormProvider>
         </>
       )}
     </>

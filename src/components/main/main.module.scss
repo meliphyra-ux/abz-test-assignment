@@ -12,8 +12,8 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('../../assets/images/pexels-alexandr-podvalny-1227513.jpeg');
 
-  background-size: 340%;
-  background-position: 51.25% 100%;
+  background-size: 340% 162.5%; 
+  background-position: 51.3% 100%;
   background-repeat: no-repeat;
 
   color: white;
@@ -38,7 +38,7 @@
     padding-top: 89px;
     padding-bottom: 88px;
 
-    background-size: 1220px;
+    background-size: 340% 162.5%;
   }
   @media screen and (min-width: 1024px) {
     padding-top: 164px;
@@ -46,6 +46,10 @@
 
     height: 650px;
 
-    background-size: 1550px;
+    background-size: 340% 162.5%;
+  }
+  // Not sure about 2560px because I don't have only HD resolution monitor (1920x1080)
+  @media screen and (min-width: 2560px) {
+    background-size: 200% 100%;
   }
 }

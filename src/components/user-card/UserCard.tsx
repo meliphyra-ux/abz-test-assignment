@@ -6,6 +6,9 @@ import Typography from '../typography/Typography';
 import styles from './user-card.module.scss';
 
 const UserCard = ({ user }: { user: User }) => {
+  // Creating a blueprint for userNumber
+  const userNumber = `${user.phone.slice(0, 3)} (${user.phone.slice(3, 6)})
+   ${user.phone.slice(6, 9)}  ${user.phone.slice(9, 11)}  ${user.phone.slice(11, 13)}`;
   return (
     <div className={styles['user-card--container']}>
       <img
@@ -30,8 +33,8 @@ const UserCard = ({ user }: { user: User }) => {
               : user.email}
           </Typography>
         </Tooltip>
-        <Tooltip text={user.phone}>
-          <Typography type="body-text">{user.phone}</Typography>
+        <Tooltip text={userNumber}>
+          <Typography type="body-text">{userNumber}</Typography>
         </Tooltip>
       </div>
     </div>

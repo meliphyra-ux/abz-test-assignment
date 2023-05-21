@@ -1,0 +1,7 @@
+.radio-selector--container {
+  width: 100%;
+  
+  & > [class^='radio']:first-of-type {
+    margin-top: 10px;
+  };
+}
