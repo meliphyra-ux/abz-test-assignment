@@ -8,7 +8,6 @@ type TypographyProps = {
 };
 
 const Typography: FC<TypographyProps> = ({ type, children }) => {
-
   // Creating 2 different elements for styling
   let Element;
   switch (type) {

@@ -11,7 +11,12 @@ type ButtonProps = {
 const Button: FC<ButtonProps> = ({ disabled, children, onClick }) => {
   const style = disabled ? styles.disabled : styles.normal;
   return (
-    <button className={`${styles.button} ${style}`} onClick={onClick}>{children}</button>
+    <button className={`${styles.button} ${style}`} 
+    onClick={onClick}
+    disabled={disabled}
+    >
+      {children}
+    </button>
   );
 };
 

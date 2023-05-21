@@ -1,11 +1,19 @@
 import Button from '../button/Button';
 import Typography from '../typography/Typography';
 
-import styles from './main-section.module.scss';
+import styles from './main.module.scss';
 
-const MainSection = () => {
+const Main = () => {
+
+  const scrollToPostSection = () => {
+    const element = document.getElementById('post-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className={styles['main-section']}>
+    <section className={styles['main--container']}>
       <Typography type="heading">
         Test assignment for front-end developer
       </Typography>
@@ -16,11 +24,9 @@ const MainSection = () => {
         mind. They should also be excited to learn, as the world of Front-End
         Development keeps evolving.
       </Typography>
-      <Button>
-        Sign up
-      </Button>
+      <Button onClick={scrollToPostSection}>Sign up</Button>
     </section>
   );
 };
 
-export default MainSection;
+export default Main;

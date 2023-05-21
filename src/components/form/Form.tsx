@@ -1,18 +1,28 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useContext, useMemo, useState } from 'react';
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form';
+
+import { fetchUser, postUser } from '../../lib/apiFunctions';
+
+import { UserContext } from '../../contexts/user/UserContext';
+
+//Importing types
+import { PostInputs, InputField } from '../../lib/types';
+
+import Input from '../input/Input';
 import Button from '../button/Button';
+import Typography from '../typography/Typography';
+import PositionSelector from '../position-selector/PositionSelector';
+import ImageInput from '../image-input/ImageInput';
+import Success from '../success/Success';
 
-import styles from './form.module.scss'
+import styles from './form.module.scss';
 
-type Inputs = {
-  'Your name': string;
-  Email: string;
-  Phone: string;
-};
+//Creting objects representing text input fields and their limitations
 
-const INPUT_FIELDS = [
+const TEXT_INPUT_FIELDS: InputField[] = [
   {
     title: 'Your name',
-    pattern: /a-zA-z/g,
+    pattern: /[a-zA-Z]/g,
     minLenght: 2,
     maxLenght: 60,
   },
@@ -28,44 +38,88 @@ const INPUT_FIELDS = [
     pattern: /^[+]{0,1}380([0-9]{9})$/g,
     minLenght: 13,
     maxLenght: 13,
+    helper_text: '+38(0xx)xxxxxxx',
   },
 ];
 
 const Form = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const methods = useForm<PostInputs>({
+      defaultValues: {
+        'Your name': '',
+        Email: '',
+        Phone: '',
+        Position: 0,
+      },
+    });
+  // If isSuccess === true load Success component
+  const { handleAddUser } = useContext(UserContext);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const inputFieldsValues = watch(['Your name', 'Email', 'Phone']);
+  // Setting 2 separate watchers to create text input fields and for isButtonEnabled
+  const textInputFieldsValues = methods.watch(['Your name', 'Email', 'Phone']);
 
-  const InputFields = INPUT_FIELDS.map((inputField, index) => (
-    <div
-    key={inputField.title}
-    className={styles['input-container']}
-      aria-invalid={errors[inputField.title as keyof Inputs] ? 'true' : 'false'}
-    >
-      <label
-      style={{
-        top: inputFieldsValues[index].length > 0 ? '0' : '',
-      }}
-      >{inputField.title}</label>
-      <input type="text" {...register(inputField.title as keyof Inputs, {
-        pattern: inputField.pattern,
-        minLength: inputField.minLenght,
-        maxLength: inputField.maxLenght
-      })} />
-    </div>
+  const otherInputFields = methods.watch(['Position', 'Image']);
+
+  // Control of disability of sign up button
+  const isButtonEnabled = useMemo(() => {
+    const allInputFields = [...textInputFieldsValues, ...otherInputFields];
+    const FileListInstance = allInputFields[4] as FileList;
+    if (
+      allInputFields.includes('') ||
+      allInputFields.includes(0) ||
+      FileListInstance.length === 0
+    ) {
+      return false;
+    }
+    return true;
+  }, [otherInputFields, textInputFieldsValues]);
+
+  // Creating text input fields
+  const TextInputFields = TEXT_INPUT_FIELDS.map((inputField, index) => (
+    <Input
+      key={inputField.title}
+      inputField={inputField}
+      isLabelUpped={textInputFieldsValues[index].length > 0}
+    />
   ));
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<PostInputs> = async (data) => {
+    // Posting user
+    const res = await postUser(data);
+    // On success
+    if (res.success && res.user_id) {
+      setIsSuccess(res.success);
+      // Grab new user
+      const user = await fetchUser(res.user_id);
+      // On success
+      if (user !== null) {
+        handleAddUser(user);
+      }
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {InputFields}
-      <Button>Submit</Button>
-    </form>
+    <>
+      {isSuccess ? (
+        <Success />
+      ) : (
+        <>
+          <Typography type="heading">Working with POST request</Typography>
+          <FormProvider {...methods}>
+            <form
+              className={styles['form--container']}
+              onSubmit={methods.handleSubmit(onSubmit)}
+            >
+              {TextInputFields}
+              <Typography type="body-text">Select your position</Typography>
+              <PositionSelector />
+              <ImageInput />
+              <Button disabled={!isButtonEnabled}>Sign up</Button>
+            </form>
+          </FormProvider>
+        </>
+      )}
+    </>
   );
 };
 

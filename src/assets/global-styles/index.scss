@@ -4,9 +4,7 @@
   --secondary: #00bdd3;
   --background: #f8f8f8;
   --error: rgba(203, 61, 64, 1);
-
-  // Input color
-  --input-c: rgba(208, 207, 207, 1);
+  --input: rgba(208, 207, 207, 1);
 
   // Max width of sections
   --max-w: 1170px;
@@ -16,6 +14,11 @@
 
   // Universal padding and media queries for it
   --universal-padding: 0;
+
+  // Position of error messages for input fields
+  --error-b-position: -18px;
+  // Text error
+  --error-l-position: 12px;
 
   @media screen and (min-width: 360px) {
     --universal-padding: 0 16px;
@@ -32,6 +35,8 @@
 }
 // Setting font-family, box-sizing and removing default settings;
 * {
+  margin-block-start: 0;
+  margin-block-end: 0;
   font-family: 'Nunito', sans-serif;
   font-weight: 400;
 

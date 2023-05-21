@@ -1,16 +1,19 @@
+// Importing text stylings
 @import '../../assets/global-styles/mixins';
 
 .button {
+  // Using text stylings
   @include BodyText;
 
-  padding: 4px 23px;
+  padding: 4px 18.5px;
 
   min-width: 100px;
+  max-width: 120px;
 
   border-radius: 80px;
 
   cursor: pointer;
-  
+
   // Making 2 variantions of button
   &.normal {
     background-color: var(--primary);
@@ -19,12 +22,11 @@
     // Adding a hover effect
     transition: background-color 0.3s ease-in-out;
 
-    &:hover{
-      background-color:rgba(255, 227, 2, 1);
-      ;
+    &:hover {
+      background-color: rgba(255, 227, 2, 1);
     }
   }
-
+  // Disabled variant
   &.disabled {
     background-color: #b4b4b4;
     color: white;
